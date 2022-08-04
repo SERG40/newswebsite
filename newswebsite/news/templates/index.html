@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1> Главная страница новостей </h1>
+    {% for i in page_obj %}
+    <li>
+        <h2>{{i.title}}</h2>
+        <p>{{i.text}}</p>
+        <a>{{i.author}}</a>
+        <a>{{i.pub_date}}</a>
+        <hr>
+    </li>
+    {% endfor %}
+    {% include 'paginator.html' %}
+{% endblock %}
