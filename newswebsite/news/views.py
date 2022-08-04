@@ -1,12 +1,12 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from news.forms import CreateNews
+from news.forms import CreateNewsForm
 from .models import News
 
 
-
 def index(request):
+    """Главная страница."""
     news = News.objects.all()
     paginator = Paginator(news, 10)
     page_number = request.GET.get('page')
@@ -16,10 +16,50 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+
 @login_required
 def create_news(request):
-    form = CreateNews(request.POST or None)
+    """Создание новости."""
+    form = CreateNewsForm(request.POST or None)
     if form.is_valid():
         form.save()
         return redirect('/')
     return render(request, 'create_news.html', context={'form': form})
+
+
+def post_detail(request, post_id):
+    """Новость детально."""
+    post = get_object_or_404(News, pk=post_id)
+    context = {
+        'post': post,
+    }
+    return render(request, 'post_detail.html', context)
+
+
+@login_required
+def edit(request, id):
+    """Редектирование новости."""
+    post = get_object_or_404(News, id=id)
+    if post.author == request.user:
+        form = CreateNewsForm(
+            request.POST or None,
+            instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', id)
+
+        return render(request, 'edit.html',
+                      context={'form': form,
+                               'is_edit': True,
+                               'post': post})
+    return redirect('post_detail', id)
+
+
+@login_required
+def delete(request, id):
+    """Удаление новости."""
+    obj = News.objects.get(id=id)
+    if obj.author == request.user:
+        obj.delete()
+        return redirect("/")
+    return redirect('/')

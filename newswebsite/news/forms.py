@@ -2,7 +2,7 @@ from .models import News
 from django import forms
 
 
-class CreateNews(forms.ModelForm):
+class CreateNewsForm(forms.ModelForm):
     """Форма создания новости."""
 
     class Meta:
