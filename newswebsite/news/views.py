@@ -1,8 +1,8 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from news.forms import CreateNewsForm
-from .models import News
+from news.forms import CreateNewsForm, CommentForm
+from .models import News, Comment
 
 
 def index(request):
@@ -28,10 +28,13 @@ def create_news(request):
 
 
 def post_detail(request, post_id):
-    """Новость детально."""
     post = get_object_or_404(News, pk=post_id)
+    form = CommentForm()
+    comment = Comment.objects.filter(post=post_id)
     context = {
         'post': post,
+        'form': form,
+        'comments': comment
     }
     return render(request, 'post_detail.html', context)
 
@@ -63,3 +66,16 @@ def delete(request, id):
         obj.delete()
         return redirect("/")
     return redirect('/')
+
+@login_required
+def add_comment(request, id):
+    post = get_object_or_404(News, id=id)
+    form = CommentForm(request.POST or None)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+    return redirect('post_detail', id)
+
+

@@ -25,3 +25,14 @@ class News(models.Model):
         verbose_name = 'Новости'
         verbose_name_plural = 'Нововсти'
         ordering = ['-pub_date']
+
+class Comment(models.Model):
+    post = models.ForeignKey(News, on_delete=models.CASCADE,
+                             related_name="comments")
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               related_name="comments")
+    text = models.TextField()
+    created = models.DateTimeField("date published", auto_now_add=True)
+
+    def __str__(self):
+        return self.text
