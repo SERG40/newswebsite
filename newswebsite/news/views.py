@@ -8,11 +8,13 @@ from .models import News, Comment
 def index(request):
     """Главная страница."""
     news = News.objects.all()
+    comment = Comment.objects.all().count()
     paginator = Paginator(news, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
         'page_obj': page_obj,
+        'comment': comment,
     }
     return render(request, 'index.html', context)
 
@@ -67,8 +69,19 @@ def delete(request, id):
         return redirect("/")
     return redirect('/')
 
+
+def DeleteComment(request, id):
+    """Удаление коментария."""
+    obj = Comment.objects.get(id=id)
+    if obj.author == request.user:
+        obj.delete()
+        return redirect('/')
+    return redirect('/')
+
+
 @login_required
 def add_comment(request, id):
+    """Добавить коментарий."""
     post = get_object_or_404(News, id=id)
     form = CommentForm(request.POST or None)
     if form.is_valid():
@@ -79,3 +92,8 @@ def add_comment(request, id):
     return redirect('post_detail', id)
 
 
+def LikeView(request, pk):
+    """Лайки."""
+    post = get_object_or_404(News, id=pk)
+    post.likes.add(request.user)
+    return redirect('/')

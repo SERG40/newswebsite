@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
+
     <h1> Главная страница новостей </h1>
     {% for i in page_obj %}
+    Количество коментариев: {{i.comments.count}}
+    Количество лайков: {{i.likes.count}}
     <li>
         <h2>{{i.title}}</h2>
         <p>{{i.text}}</p>
         <a> Автор новости: {{i.author}}</a>
         <a> Дата публикации: {{i.pub_date}}</a>
+        {%include 'like.html'%}
         {% if user == i.author %}
-            <td><a href="edit/{{i.id}}">Изменить</a> | <a href="delete/{{i.id}}">Удалить</a></td> | 
+            <button type="submit"> <a href="edit/{{i.id}}">Изменить</a> | <a href="delete/{{i.id}}">Удалить</a></td></button>
         {% endif %}
-        <a href="{{i.id}}"> Посмотреть новость полнстью</a>
+        <button type="submit"> <a href="{{i.id}}"> Посмотреть новость полнстью</a> </button>
         <hr>
     </li>
     {% endfor %}

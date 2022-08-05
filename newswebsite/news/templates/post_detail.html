@@ -2,32 +2,27 @@
 
 {% block title %}{{ post.text|truncatechars:30 }}{% endblock %}
 {% block content %}
-<article>
-  
+<article> 
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
       Дата публикации: {{ post.pub_date|date:"d E Y" }}
     </li>
-
       <li class="list-group-item">
         Автор: {{ post.author }}
       </li>
       <li class="list-group-item d-flex justify-content-between align-items-center">
         Всего постов автора: {{ post.author.news.count }}
     </li>
-
   </ul>
   <p>{{ post.text|linebreaksbr }}</p>
-    {% if user == post.author %}
-    <a class="btn btn-primary" href="{% url 'post_edit' post.id %}">
-        Редактировать запись
-    </a>
-    {% endif%}
-    <a class="btn btn-primary" href="{% url 'index' %}">
-      На главную
-    </a>
-  <br>
   <h4> Коментарии </h4>
   {% include 'comments.html' %}
+  <br/><br/>
+  <hr>
+  <br/>
+  {% if user == post.author %}
+  <button type="submit"> <a class="btn btn-primary" href="{% url 'post_edit' post.id %}"> Редактировать запись</a> </button>
+  {% endif%}
+  <button type="submit"> <a class="btn btn-primary" href="{% url 'index' %}"> На главную</a> </button>
 </article>
 {% endblock %}

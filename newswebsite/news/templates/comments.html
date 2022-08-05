@@ -6,6 +6,12 @@
   {{ comment.text }} <br>
 
   Добавлен {{comment.created}} <br>
+  {% if user.id == comment.author.id %}
+    <form method="post" action="{% url 'del' comment.id %}">
+      {% csrf_token %}
+    <input type="submit" value="Удалить">
+    </form>
+    {% endif %}
 {% endfor %}
 
 
@@ -20,3 +26,4 @@
     </div>
   </div>
 {% endif %}
+
