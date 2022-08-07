@@ -12,13 +12,9 @@ def index(request):
     paginator = Paginator(news, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    liked = False
-    if news.filter(id=request.user.id).exists():
-        liked = True
     context = {
         'page_obj': page_obj,
         'comment': comment,
-        'liked': liked,
     }
     return render(request, 'index.html', context)
 
@@ -98,14 +94,11 @@ def add_comment(request, id):
     return redirect('post_detail', id)
 
 
-def LikeView(request, pk):
+def like(request, pk):
     """Лайки."""
     post = get_object_or_404(News, id=pk)
-    liked = False
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
-        liked = False 
     else:
         post.likes.add(request.user)
-        liked = True
     return redirect('/')
