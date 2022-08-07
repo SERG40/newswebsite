@@ -12,9 +12,13 @@ def index(request):
     paginator = Paginator(news, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    liked = False
+    if news.filter(id=request.user.id).exists():
+        liked = True
     context = {
         'page_obj': page_obj,
         'comment': comment,
+        'liked': liked,
     }
     return render(request, 'index.html', context)
 

@@ -20,10 +20,6 @@
   <br/><br/>
   <hr>
   <br/>
-  {%for i in news%}
-    Количество коментариев: {{i.comments.count}}
-    Количество лайков: {{i.likes.count}}
-  {% endfor %}
   {% if user == post.author %}
     <button type="submit"> <a class="btn btn-primary" href="{% url 'post_edit' post.id %}"> Редактировать запись</a> </button>
   {% endif%}
