@@ -4,5 +4,5 @@
 <form action="{% url 'like_post' i.pk%}"
 method="POST">
   {% csrf_token %}
-  <button type="submit", name="post_id", value="{{ post.id }}, class="btn btn-primary btn-sm">Нравится</button>
+    <button type="submit", name="post_id", value="{{ post.id }}, class="btn btn-primary btn-sm">Нравится/Не нравится</button>
 <br>

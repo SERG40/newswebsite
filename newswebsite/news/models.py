@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -19,9 +18,6 @@ class News(models.Model):
         verbose_name='Автор'
     )
 
-    def total_likes(self):
-        return self.likes.count()
-
     def __str__(self) -> str:
         return self.title
 
@@ -32,15 +28,13 @@ class News(models.Model):
 
 
 class Comment(models.Model):
+    """Модель коментариев."""
     post = models.ForeignKey(News, on_delete=models.CASCADE,
                              related_name="comments")
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                related_name="comments")
     text = models.TextField()
     created = models.DateTimeField("date published", auto_now_add=True)
-
-    def total_comment(self):
-        return self.post.count()
 
     def __str__(self):
         return self.text

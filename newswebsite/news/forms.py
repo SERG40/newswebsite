@@ -9,7 +9,7 @@ class CreateNewsForm(forms.ModelForm):
         """Выбираем поля."""
 
         model = News
-        fields = '__all__'
+        fields = ('author', 'title', 'text', )
 
         widgets = {
             'text': forms.Textarea(),
@@ -17,6 +17,7 @@ class CreateNewsForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    """Форма создания коментария."""
     class Meta:
         model = Comment
         fields = ('text', )
