@@ -34,15 +34,19 @@ def create_news(request):
 
 
 def post_detail(request, post_id):
+    """Новость подробно."""
     post = get_object_or_404(News, pk=post_id)
     news = News.objects.all()
     form = CommentForm()
-    comment = Comment.objects.filter(post=post_id)
+    comment = Paginator(Comment.objects.filter(post=post_id), 3)
+    page_number = request.GET.get('page')
+    page_obj = comment.get_page(page_number)
     context = {
         'news': news,
         'post': post,
         'form': form,
-        'comments': comment
+        'comments': comment,
+        'page_obj': page_obj,
     }
     return render(request, 'post_detail.html', context)
 
