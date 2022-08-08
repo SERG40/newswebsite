@@ -22,7 +22,7 @@
       <form method="post" action="{% url 'add_comment' post.id %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Добавить коментарий</button>
+        <a class="btn btn-primary"<button type="submit">Добавить коментарий</button></a>
     </div>
   </div>
 {% endif %}

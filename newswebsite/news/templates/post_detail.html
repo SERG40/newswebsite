@@ -15,14 +15,11 @@
     </li>
   </ul>
   <p>{{ post.text|linebreaksbr }}</p>
-  <h4> Коментарии </h4>
+  <h4> Комментарии </h4>
   {% include 'comments.html' %}
-  <br/><br/>
-  <hr>
-  <br/>
   {% if user == post.author %}
-    <button type="submit"> <a class="btn btn-primary" href="{% url 'post_edit' post.id %}"> Редактировать запись</a> </button>
+    <a class="btn btn-primary" href="{% url 'post_edit' post.id %}"> Редактировать запись</a>
   {% endif%}
-  <button type="submit"> <a class="btn btn-primary" href="{% url 'index' %}"> На главную</a> </button>
+  <a class="btn btn-primary" href="{% url 'index' %}"> На главную</a>
 </article>
 {% endblock %}
