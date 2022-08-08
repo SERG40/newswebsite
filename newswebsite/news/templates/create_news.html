@@ -5,6 +5,6 @@
     <form action='{% url "create_news" %}' method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <a class="btn btn-primary"<button type="submit"> Опубликовать </button></a>
+        <button type="submit"> Опубликовать </button>
     </form>
 {% endblock %}
