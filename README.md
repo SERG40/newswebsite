@@ -4,8 +4,7 @@ Cервер авторизации и новостей с комментария
 ### Технологии
 Django 2.2.16
 djangorestframework
-python
-redoc
+djangorestframework
 requests
 
 ### Запуск проекта в dev-режиме
@@ -29,9 +28,14 @@ python manage.py runserver
 ```
 
  Примеры запросов к API:
+ ```
  http://127.0.0.1:8000/api/v1/posts/ список новостей get
  http://127.0.0.1:8000/api/v1/api-token-auth/ авторизация
+ ```
+
 Так же есть Redoc:
+```
  http://127.0.0.1:8000/redoc
+ ```
 ### Автор
 Сергей Кастов
