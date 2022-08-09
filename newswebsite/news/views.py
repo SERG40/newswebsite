@@ -1,15 +1,13 @@
+from .models import News, Comment
+from news.forms import CreateNewsForm, CommentForm
+from django.views import View
+
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from news.forms import CreateNewsForm, CommentForm
-from .models import News, Comment
-
 
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 
 
 def index(request):
@@ -86,7 +84,7 @@ def delete(request, id):
         return redirect("/")
     return redirect('/')
 
-
+@login_required
 def DeleteComment(request, id):
     """Удаление коментария."""
     obj = Comment.objects.get(id=id)
