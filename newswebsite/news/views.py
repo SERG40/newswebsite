@@ -38,7 +38,7 @@ def post_detail(request, post_id):
     post = get_object_or_404(News, pk=post_id)
     news = News.objects.all()
     form = CommentForm()
-    comment = Paginator(Comment.objects.filter(post=post_id), 3)
+    comment = Paginator(Comment.objects.filter(post=post_id), 10)
     page_number = request.GET.get('page')
     page_obj = comment.get_page(page_number)
     context = {
