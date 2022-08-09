@@ -10,7 +10,8 @@ class News(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок новости')
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(auto_now='True', verbose_name='Дата новости')
-    likes = models.ManyToManyField(User, related_name='blog_post')
+    likes = models.ManyToManyField(User, blank=True, related_name='likes')
+    dislikes = models.ManyToManyField(User, blank=True, related_name='dislikes')
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

@@ -5,6 +5,13 @@ from news.forms import CreateNewsForm, CommentForm
 from .models import News, Comment
 
 
+from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+
 def index(request):
     """Главная страница."""
     news = News.objects.all()
@@ -102,11 +109,49 @@ def add_comment(request, id):
     return redirect('post_detail', id)
 
 
-def like(request, pk):
-    """Лайки."""
-    post = get_object_or_404(News, id=pk)
-    if post.likes.filter(id=request.user.id).exists():
-        post.likes.remove(request.user)
-    else:
-        post.likes.add(request.user)
-    return redirect('/')
+class AddLike(LoginRequiredMixin, View):
+    """Лайк."""
+    def post(self, request, pk, *args, **kwargs):
+        post = News.objects.get(pk=pk)
+        is_dislike = False
+        for dislike in post.dislikes.all():
+            if dislike == request.user:
+                is_dislike = True
+                break
+
+        if is_dislike:
+            post.dislikes.remove(request.user)
+        is_like = False
+        for like in post.likes.all():
+            if like == request.user:
+                is_like = True
+                break
+        if not is_like:
+            post.likes.add(request.user)
+        if is_like:
+            post.likes.remove(request.user)
+        return redirect('/')
+
+
+
+class AddDislike(LoginRequiredMixin, View):
+    """Дизлайк."""
+    def post(self, request, pk, *args, **kwargs):
+        post = News.objects.get(pk=pk)
+        is_like = False
+        for like in post.likes.all():
+            if like == request.user:
+                is_like = True
+                break
+        if is_like:
+            post.likes.remove(request.user)
+        is_dislike = False
+        for dislike in post.dislikes.all():
+            if dislike == request.user:
+                is_dislike = True
+                break
+        if not is_dislike:
+            post.dislikes.add(request.user)
+        if is_dislike:
+            post.dislikes.remove(request.user)
+        return redirect('/')

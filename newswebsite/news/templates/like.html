@@ -1,3 +1,17 @@
-<form action="{% url 'like_post' i.pk %}" method="POST">
+<form method="post" action="{% url 'like' i.pk %}">
   {% csrf_token %}
-    <button type="submit", name="news_id", value="{{ i.id }}, class="btn btn-primary btn-sm">Нравится/Не нравится</button>
+        <button type="submit", name="news_id", value="{{ i.id }}, class="btn btn-primary btn-sm">Нравится</button>
+          <span>{{ i.likes.all.count }}</span>
+      </button>
+  </div>
+
+</form>
+
+
+<form method="post" action="{% url 'dislike' i.pk %}">
+  {% csrf_token %}
+        <button type="submit", name="news_id", value="{{ i.id }}, class="btn btn-primary btn-sm">Не нравится</button>
+          <span>{{ i.dislikes.all.count }}</span>
+      </button>
+  </div>
+</form>
