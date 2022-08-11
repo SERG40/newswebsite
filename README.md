@@ -4,7 +4,8 @@ Cервер авторизации и новостей с комментария
 ### Технологии
 Django 2.2.16
 djangorestframework
-djangorestframework
+python
+docker
 requests
 
 ### Запуск проекта в dev-режиме
